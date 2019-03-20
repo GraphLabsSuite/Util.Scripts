@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
 
-rm -r $1/*
-npx create-react-app $1 --typescript
+DIR=$1
+echo "$DIR/*"
+rm -rf "$DIR/*"
+echo $(ls $DIR)
+FDN=$(basename "$1")
+DN=$(dirname "$1")
+NFDN="${FDN,,}"
+mv "$DN/$FDN" "$DN/$NFDN"
+npx create-react-app "$DN/$NFDN" --typescript
 npm i graphlabs.core.template
 npm i --save-dev tslint tslint-react tslint-config-prettier
-# To be removed
+To be removed
 npm i --save-dev es6-promise redux-devtools-extension
 
-cp ../sources/init-project/.editorconfig $1/.editorconfig
-cp ../sources/init-project/tslint.json $1/tslint.json
-cp ../sources/init-project/tsconfig.json $1/tsconfig.json
-cp ../sources/init-project/App.tsx $1/src/App.tsx
+cp "../sources/init-project/.editorconfig" "$DN/$NFDN/.editorconfig"
+cp "../sources/init-project/tslint.json" "$DN/$NFDN/tslint.json"
+cp "../sources/init-project/tsconfig.json" "$DN/$NFDN/tsconfig.json"
+cp "../sources/init-project/App.tsx" "$DN/$NFDN/src/App.tsx"
 
-echo -e "//tslint:disable\n$(cat $1/src/service-worker.ts)" > $1/src/service-worker.ts
-echo -e ".idea\n$(cat $1/.gitignore)" > $1/.gitignore
-sed '/"scripts": {/ a "lint": "tslint --fix --project .",' $1/package.json
+echo -e "//tslint:disable\n$(cat $DN/$NFDN/src/service-worker.ts)" > "$DN/$NFDN/src/service-worker.ts"
+echo -e ".idea\n$(cat $DN/$NFDN/.gitignore)" > "$DN/$NFDN/.gitignore"
+sed '/"scripts": {/ a "lint": "tslint --fix --project .",' "$DN/$NFDN/package.json"
+mv "$DN/$NFDN" "$DN/$FDN"
