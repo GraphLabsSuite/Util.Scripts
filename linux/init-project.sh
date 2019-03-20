@@ -3,6 +3,7 @@
 DIR=$1
 echo "$DIR/*"
 rm -rf "$DIR/*"
+find "$DIR" -maxdepth 1 -type f -exec rm {} \;
 echo $(ls $DIR)
 FDN=$(basename "$1")
 DN=$(dirname "$1")
@@ -11,7 +12,7 @@ mv "$DN/$FDN" "$DN/$NFDN"
 npx create-react-app "$DN/$NFDN" --typescript
 npm i graphlabs.core.template
 npm i --save-dev tslint tslint-react tslint-config-prettier
-To be removed
+# To be removed
 npm i --save-dev es6-promise redux-devtools-extension
 
 cp "../sources/init-project/.editorconfig" "$DN/$NFDN/.editorconfig"
