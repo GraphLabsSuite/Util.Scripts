@@ -7,7 +7,7 @@ find "$DIR" -maxdepth 1 -type f -exec rm {} \;
 echo $(ls $DIR)
 FDN=$(basename "$1")
 DN=$(dirname "$1")
-NFDN="${FDN,,}"
+NFDN="graphlabs.${FDN,,}"
 mv "$DN/$FDN" "$DN/$NFDN"
 npx create-react-app "$DN/$NFDN" --typescript
 npm i graphlabs.core.template
@@ -24,3 +24,4 @@ echo -e "//tslint:disable\n$(cat $DN/$NFDN/src/service-worker.ts)" > "$DN/$NFDN/
 echo -e ".idea\n$(cat $DN/$NFDN/.gitignore)" > "$DN/$NFDN/.gitignore"
 sed '/"scripts": {/ a "lint": "tslint --fix --project .",' "$DN/$NFDN/package.json"
 mv "$DN/$NFDN" "$DN/$FDN"
+find "$DN/$FDN" -exec chmod 755 {} \;
